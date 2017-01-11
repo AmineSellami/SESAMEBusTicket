@@ -1,16 +1,36 @@
 <?php
   function call($controller, $action) {
-    require_once('controllers/' . $controller . '_controller.php');
+    require_once('/Controleur/' . $controller . '_controller.php');
 
     switch($controller) {
       case 'pages':
         $controller = new PagesController();
       break;
-      case 'posts':
+      case 'passengers':
         // we need the model to query the database later in the controller
-        require_once('models/post.php');
-        $controller = new PostsController();
+        require_once('Model/Passenger.inc');
+        $controller = new PassengersController();
       break;
+      case 'admin':
+        // we need the model to query the database later in the controller
+        require_once('Model/Admin.inc');
+        $controller = new AdminController();
+        break;
+    case 'route':
+        // we need the model to query the database later in the controller
+        require_once('Model/Route.inc');
+        $controller = new RouteController();
+        break;
+    case 'bus':
+        // we need the model to query the database later in the controller
+        require_once('Model/Bus.inc');
+        $controller = new BusController();
+        break;
+    case 'reservation':
+        // we need the model to query the database later in the controller
+        require_once('Model/Reserves.inc');
+        $controller = new ReservationController();
+        break;
     }
 
     $controller->{ $action }();
@@ -18,7 +38,11 @@
 
   // we're adding an entry for the new controller and its actions
   $controllers = array('pages' => ['home', 'error'],
-                       'posts' => ['index', 'show']);
+                        'passengers' => ['index','delete','toCreate','create','toUpdate','update'],
+                        'admin' => ['index','login','delete','toCreate','create','toUpdate','update'],
+                        'bus' => ['index','delete','toCreate','create','toUpdate','update'],
+                        'route' => ['index','delete','toCreate','create','toUpdate','update'],
+                        'reservation' => ['index','delete','toCreate','create','toUpdate','update']);
 
   if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {
@@ -29,4 +53,3 @@
   } else {
     call('pages', 'error');
   }
-?>

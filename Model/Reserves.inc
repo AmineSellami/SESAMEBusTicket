@@ -8,7 +8,7 @@
  */
 
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Reserves implements DAO
 {
@@ -110,7 +110,7 @@ class Reserves implements DAO
     }
 
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE pnr=:pnr');
@@ -125,14 +125,17 @@ class Reserves implements DAO
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );
         $req->execute();
         $reservations = $req->fetchAll();
         $bdd = null;
-        return $reservations;
+        foreach($reservations as $reservation) {
+        $list[] = new self($reservation['pnr'],$reservation['pid'],$reservation['rid'],$reservation['status'],$reservation['DOT']);
+    }
+        return $list;
     }
 
     public function create()

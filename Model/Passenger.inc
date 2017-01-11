@@ -7,7 +7,7 @@
  * Time: 7:27 PM
  */
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Passenger implements DAO
 {
@@ -20,12 +20,14 @@ class Passenger implements DAO
 
     const TABLE = 'passenger';
 
-    public function __construct($pid=null, $name=null, $email=null, $mob=null)
+    public function __construct($pid=null, $name=null, $email=null, $mob=null , $uname=null , $password=null)
     {
         $this->pid = $pid;
         $this->name = $name;
         $this->email = $email;
         $this->mob = $mob;
+        $this->uname = $uname;
+        $this->password = $password;
     }
 
     /**
@@ -125,7 +127,7 @@ class Passenger implements DAO
     }
 
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE pid=:pid');
@@ -140,14 +142,18 @@ class Passenger implements DAO
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );
         $req->execute();
         $passengers = $req->fetchAll();
         $bdd = null;
-        return $passengers;
+
+        foreach($passengers as $passenger) {
+            $list[] = new self($passenger['pid'],$passenger['name'],$passenger['email'],$passenger['mob'],$passenger['uname'],$passenger['password']);
+        }
+        return $list;
     }
 
     public function create()

@@ -1,4 +1,5 @@
 <?php
+  session_start();
 
   if (isset($_GET['controller']) && isset($_GET['action'])) {
     $controller = $_GET['controller'];
@@ -7,6 +8,12 @@
     $controller = 'pages';
     $action     = 'home';
   }
-
-  require_once('Vue/layout.php');
-?>
+  if(isset($_SESSION['role'])) {
+    if ($_SESSION['role'] != 'admin') {
+      require_once('Vue/layout.php');
+    } else {
+      require_once('Vue/layout_admin.php');
+    }
+  } else {
+      require_once('Vue/layout.php');
+  }

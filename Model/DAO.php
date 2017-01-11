@@ -8,8 +8,8 @@
  */
 interface DAO
 {
-    public function find($id);
-    public function all();
+    public static function find($id);
+    public static function all();
     public function create();
     public function update();
     public function delete();

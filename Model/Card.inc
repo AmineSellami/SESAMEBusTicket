@@ -8,7 +8,7 @@
  */
 
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Card implements DAO
 {
@@ -91,7 +91,7 @@ class Card implements DAO
         $this->cvv = $cvv;
     }
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE num=:num');
@@ -106,7 +106,7 @@ class Card implements DAO
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );

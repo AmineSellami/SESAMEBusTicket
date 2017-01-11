@@ -8,7 +8,7 @@
  */
 
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Bus implements DAO
 {
@@ -79,7 +79,7 @@ class Bus implements DAO
     /**
      * @return null
      */
-    public function getTypesl()
+    public function getTypeSl()
     {
         return $this->type_sl;
     }
@@ -87,13 +87,13 @@ class Bus implements DAO
     /**
      * @param null $type_sl
      */
-    public function setTypesl($type_sl)
+    public function setTypSl($type_sl)
     {
         $this->type_sl = $type_sl;
     }
 
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE bid=:id');
@@ -108,14 +108,17 @@ class Bus implements DAO
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );
         $req->execute();
         $buses = $req->fetchAll();
         $bdd = null;
-        return $buses;
+        foreach($buses as $bus) {
+            $list[] = new self($bus['bid'],$bus['bname'],$bus['type_ac'],$bus['type_sl']);
+        }
+        return $list;
     }
 
     public function create()

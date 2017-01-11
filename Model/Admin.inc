@@ -8,7 +8,7 @@
  */
 
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Admin implements DAO
 {
@@ -72,7 +72,7 @@ class Admin implements DAO
         $this->name = $name;
     }
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE uname=:var');
@@ -87,7 +87,7 @@ class Admin implements DAO
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );

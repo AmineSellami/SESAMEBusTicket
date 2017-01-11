@@ -8,14 +8,14 @@
  */
 
 require_once 'Connexion.inc';
-include 'DAO.php';
+include_once 'DAO.php';
 
 class Route implements DAO
 {
     private $rid;
     private $bid;
-    private $fromloc;
-    private $toloc;
+    private $fromLoc;
+    private $toLoc;
     private $fare;
     private $dep_date;
     private $dep_time;
@@ -26,12 +26,12 @@ class Route implements DAO
 
     const TABLE = 'route';
 
-    public function __construct($rid=null, $bid=null, $fromloc=null, $toloc=null, $fare=null, $dep_date=null, $dep_time=null, $arr_date=null, $arr_time=null, $avalseats=null, $maxseats=null)
+    public function __construct($rid=null, $bid=null, $fromLoc=null, $toLoc=null, $fare=null, $dep_date=null, $dep_time=null, $arr_date=null, $arr_time=null, $avalseats=null, $maxseats=null)
     {
         $this->rid = $rid;
         $this->bid = $bid;
-        $this->fromloc = $fromloc;
-        $this->toloc = $toloc;
+        $this->fromLoc = $fromLoc;
+        $this->toLoc = $toLoc;
         $this->fare = $fare;
         $this->dep_date = $dep_date;
         $this->dep_time = $dep_time;
@@ -76,33 +76,33 @@ class Route implements DAO
     /**
      * @return null
      */
-    public function getFromloc()
+    public function getfromLoc()
     {
-        return $this->fromloc;
+        return $this->fromLoc;
     }
 
     /**
-     * @param null $fromloc
+     * @param null $fromLoc
      */
-    public function setFromloc($fromloc)
+    public function setfromLoc($fromLoc)
     {
-        $this->fromloc = $fromloc;
+        $this->fromLoc = $fromLoc;
     }
 
     /**
      * @return null
      */
-    public function getToloc()
+    public function gettoLoc()
     {
-        return $this->toloc;
+        return $this->toLoc;
     }
 
     /**
-     * @param null $toloc
+     * @param null $toLoc
      */
-    public function setToloc($toloc)
+    public function settoLoc($toLoc)
     {
-        $this->toloc = $toloc;
+        $this->toLoc = $toLoc;
     }
 
     /**
@@ -218,39 +218,42 @@ class Route implements DAO
     }
 
 
-    public function find($id)
+    public static function find($id)
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE . ' WHERE rid=:rid');
-        $req->bindParam(":rid",$rid);
+        $req->bindParam(":rid",$id);
         $req->execute();
         $result = $req->fetch(PDO::FETCH_BOTH);
         $bdd = null;
         if ($result) {
-            return new self($result['rid'],$result['bid'],$result['fromloc'],$result['toloc'],$result['fare'],$result['dep_date'],$result['dep_time'],$result['arr_date'],$result['arr_time'],$result['avalseats'],$result['maxseats']);
+            return new self($result['rid'],$result['bid'],$result['fromLoc'],$result['toLoc'],$result['fare'],$result['dep_date'],$result['dep_time'],$result['arr_date'],$result['arr_time'],$result['avalseats'],$result['maxseats']);
         } else {
             return false;
         }
     }
 
-    public function all()
+    public static function all()
     {
         $bdd = new Connexion();
         $req = $bdd->prepare('SELECT * FROM ' . self::TABLE );
         $req->execute();
         $routes = $req->fetchAll();
         $bdd = null;
-        return $routes;
+        foreach($routes as $route){
+            $list[] =  new self($route['rid'],$route['bid'],$route['fromLoc'],$route['toLoc'],$route['fare'],$route['dep_date'],$route['dep_time'],$route['arr_date'],$route['arr_time'],$route['avalseats'],$route['maxseats']);
+        }
+        return $list;
     }
 
     public function create()
     {
         $bdd = new Connexion();
-        $req = $bdd->prepare('INSERT INTO ' . self::TABLE . ' (rid, bid, fromloc, toloc, fare, dep_date, dep_time, arr_date, arr_time, avalseats, maxseats) VALUES(:rid, :bid, :fromloc, :toloc, :fare, :dep_date, :dep_time, :arr_date, :arr_time, :avalseats, :maxseats');
+        $req = $bdd->prepare('INSERT INTO ' . self::TABLE . ' (rid, bid, fromLoc, toLoc, fare, dep_date, dep_time, arr_date, arr_time, avalseats, maxseats) VALUES(:rid, :bid, :fromLoc, :toLoc, :fare, :dep_date, :dep_time, :arr_date, :arr_time, :avalseats, :maxseats');
         $req->bindParam(':rid', $this->rid);
         $req->bindParam(':bid', $this->bid);
-        $req->bindParam(':fromloc', $this->fromloc);
-        $req->bindParam(':toloc', $this->toloc);
+        $req->bindParam(':fromLoc', $this->fromLoc);
+        $req->bindParam(':toLoc', $this->toLoc);
         $req->bindParam(':fare', $this->fare);
         $req->bindParam(':dep_date', $this->dep_date);
         $req->bindParam(':dep_time', $this->dep_time);
@@ -265,10 +268,10 @@ class Route implements DAO
     public function update()
     {
         $bdd = new Connexion();
-        $req = $bdd->prepare('UPDATE ' . self::TABLE . ' SET bid = :bid, fromloc = :fromloc, toloc = :toloc, dep_date = :dep_date, dep_time = :deptime, arr_date = :arr_date, arr_time = :arr_time, avalseats = :avalseats, maxseats = :maxseats WHERE rid = :rid');
+        $req = $bdd->prepare('UPDATE ' . self::TABLE . ' SET bid = :bid, fromLoc = :fromLoc, toLoc = :toLoc, dep_date = :dep_date, dep_time = :deptime, arr_date = :arr_date, arr_time = :arr_time, avalseats = :avalseats, maxseats = :maxseats WHERE rid = :rid');
         $req->bindParam(':bid', $this->bid);
-        $req->bindParam(':fromloc', $this->fromloc);
-        $req->bindParam(':toloc', $this->toloc);
+        $req->bindParam(':fromLoc', $this->fromLoc);
+        $req->bindParam(':toLoc', $this->toLoc);
         $req->bindParam(':fare', $this->fare);
         $req->bindParam(':dep_date', $this->dep_date);
         $req->bindParam(':dep_time', $this->dep_time);
