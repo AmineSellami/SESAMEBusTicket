@@ -9,7 +9,7 @@
 if(isset($bus)){
 
     echo '<form method="post" action="?controller=bus&action=update">';
-    echo '<input type="text" required placeholder="Id" disabled value="'.$bus->getBid().'" name="bid" />';
+    echo '<input type="text" required placeholder="Id" value="'.$bus->getBid().'" name="bid" />';
     echo '<input type="text" required placeholder="Bus Name" value="'.$bus->getBname().'" name="bname" />';
     echo '<select name="type_ac">';
     if($bus->getTypeAC() == "yes") {

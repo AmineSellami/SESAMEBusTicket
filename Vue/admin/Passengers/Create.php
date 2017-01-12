@@ -7,7 +7,7 @@
  */
 if(isset($passenger)){
     echo '<form method="post" action="?controller=passengers&action=update">';
-    echo '<input type="text" required placeholder="Id" disabled value="'.$passenger->getPid().'" name="id" />';
+    echo '<input type="text" required placeholder="Id"  value="'.$passenger->getPid().'" name="id" />';
     echo '<input type="text" required placeholder="Name" value="'.$passenger->getName().'" name="name" />';
     echo '<input type="email" required placeholder="Email" value="'.$passenger->getEmail().'" name="email" />';
     echo '<input type="tel" required placeholder="Mobile" value="'.$passenger->getMob().'" name="mob" />';

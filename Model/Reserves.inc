@@ -141,13 +141,12 @@ class Reserves implements DAO
     public function create()
     {
         $bdd = new Connexion();
-        $req = $bdd->prepare('INSERT INTO ' . self::TABLE . ' (pnr, rid, pid, status, DOT) VALUES(:pnr, :rid, :pid, :status, :DOT)');
+        var_dump($req = $bdd->prepare('INSERT INTO ' . self::TABLE . ' (pnr, rid, pid, status, DOT) VALUES(NULL, :rid, :pid, :status, :DOT)'));
         $req->bindParam(':pid', $this->pid);
-        $req->bindParam(':pnr', $this->pnr);
         $req->bindParam(':rid', $this->rid);
         $req->bindParam(':status', $this->status);
         $req->bindParam(':DOT', $this->DOT);
-        $req->execute();
+        var_dump($req->execute());
         $bdd = null;
     }
 

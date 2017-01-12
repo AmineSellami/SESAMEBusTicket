@@ -22,7 +22,7 @@ class ReservationController
     }
 
     public function create(){
-        $reservation = new Reserves($_POST['pnr'],$_POST['rid'],$_POST['pid'],$_POST['status'],$_POST['dot']);
+        $reservation = new Reserves(null,$_POST['rid'],$_POST['pid'],$_POST['status'],$_POST['dot']);
         $reservation->create();
         call('reservation','index');
     }
@@ -52,6 +52,16 @@ class ReservationController
 
     public function getReservation(){
         $reservations = Reserves::all();
-        require_once('/Vue/public/reservation.php');
+
+    }
+    public function toPay(){
+        $rid=$_GET['id'];
+        require_once('/Vue/public/pay.php');
+
+    }
+    public function pay(){
+        var_dump($reservation = new Reserves(null,$_GET['id'],$_SESSION['id'],"booked",date("Y-m-d H:i:s")));
+        var_dump($reservation->create());
+        call('reservation','getReservation');
     }
 }

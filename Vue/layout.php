@@ -19,7 +19,7 @@
       <div class="collapse navbar-collapse">
         <div class="navbar-brand">SESAME BUS</div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="">Home</a></li>
+          <li><a href="?controller=pages&action=home">Home</a></li>
           <li><a href="">Contact</a></li>
           <?php
           if(isset($_SESSION['role'])){

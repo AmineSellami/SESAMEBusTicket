@@ -29,7 +29,6 @@ class RouteController
         include_once('/Model/Bus.inc');
         $buses = Bus::all();
         $route = Route::find($_GET['id']);
-        var_dump($route);
         require_once('/Vue/admin/Route/Create.php');
     }
 
@@ -45,5 +44,23 @@ class RouteController
             $route->delete();
             call('route','index');
         }
+    }
+
+    public function getRoutes(){
+        $routes = Route::all();
+        if(isset($_POST['from'])) {
+            $from = $_POST['from'];
+        }
+        if(isset($_POST['to'])) {
+
+            $to = $_POST['to'];
+        }
+
+        if(isset($_POST['nb'])) {
+
+            $nb = $_POST['nb'];
+        }
+        require_once('/Vue/public/home.php');
+        
     }
 }

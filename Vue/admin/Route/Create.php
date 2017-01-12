@@ -8,7 +8,7 @@
 
 if(isset($route)){
     echo '<form method="post" action="?controller=route&action=update">';
-    echo '<input type="text" required placeholder="Id" disabled value="'.$route->getRid().'" name="rid" />';
+    echo '<input type="text" required placeholder="Id" value="'.$route->getRid().'" name="rid" />';
     echo '<select name="bid">';
     foreach ($buses as $bus) {
         if($bus->getBid() == $route->getBid()){
