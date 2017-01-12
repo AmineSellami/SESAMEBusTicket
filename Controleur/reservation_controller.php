@@ -49,4 +49,9 @@ class ReservationController
             call('reservation','index');
         }
     }
+
+    public function getReservation(){
+        $reservations = Reserves::all();
+        require_once('/Vue/public/reservation.php');
+    }
 }

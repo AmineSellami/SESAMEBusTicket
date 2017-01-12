@@ -34,14 +34,34 @@ class PassengersController
         call('passengers','index');
     }
 
+    public function toLogin(){
+        require_once('/Vue/public/login.php');
+    }
 
 
     public function login(){
+        if(!isset($_POST['uname']) || !isset($_POST['password']) ){
+            return call('pages','error');
+        } else {
+            $passenger = Passenger::find($_POST['uname']);
+            if (isset($passenger) && $passenger->getPassword()!=null && $passenger->getPassword() === $_POST['password']){
+                $_SESSION['role'] = 'user';
+                $_SESSION['id'] = $passenger->getUname();
+                call('passengers','toProfile');
+            } else {
+                require_once('/Vue/public/login.php');
+            }
+        }
+    }
 
+    public function toSignup(){
+        require_once('/Vue/public/signup.php');
     }
 
     public function signUp(){
-
+        $passenger = new Passenger($_POST['uname'],$_POST['name'],$_POST['email'],$_POST['mob'],$_POST['uname'],$_POST['password']);
+        $passenger->create();
+        call('passengers','index');
     }
     
     public function delete(){
@@ -50,6 +70,12 @@ class PassengersController
             $pass->delete();
             call('passengers','index');
         }
+    }
+
+    public function toProfile(){
+        $passenger = Passenger::find($_SESSION['id']);
+        
+        require_once('/Vue/public/profile.php');
     }
 
 }

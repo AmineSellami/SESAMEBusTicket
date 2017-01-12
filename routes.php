@@ -38,11 +38,11 @@
 
   // we're adding an entry for the new controller and its actions
   $controllers = array('pages' => ['home', 'error'],
-                        'passengers' => ['index','delete','toCreate','create','toUpdate','update'],
+                        'passengers' => ['index','delete','toCreate','create','toUpdate','update','toLogin','login','toSignup','signup','toProfile'],
                         'admin' => ['index','login','delete','toCreate','create','toUpdate','update'],
                         'bus' => ['index','delete','toCreate','create','toUpdate','update'],
                         'route' => ['index','delete','toCreate','create','toUpdate','update'],
-                        'reservation' => ['index','delete','toCreate','create','toUpdate','update']);
+                        'reservation' => ['index','delete','toCreate','create','toUpdate','update','getReservation']);
 
   if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {

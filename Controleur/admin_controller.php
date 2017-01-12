@@ -9,10 +9,14 @@
 class AdminController
 {
     public function index(){
-        if($_SESSION['role']!='admin'){
+        if(isset($_Session['role'])) {
+            if ($_SESSION['role'] != 'admin') {
+                require_once('/Vue/admin/login.php');
+            } else {
+                require_once('/Vue/admin/Passengers/index.php');
+            }
+        }else{
             require_once('/Vue/admin/login.php');
-        }else {
-            require_once('/Vue/admin/Passengers/index.php');
         }
     }
 
